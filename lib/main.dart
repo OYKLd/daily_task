@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
-  // Initialiser les données de localisation
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('fr_FR', null);
-  
   runApp(const TodoApp());
 }
 
@@ -104,7 +102,6 @@ class _HomePageState extends State<HomePage> {
         );
         _taskController.clear();
       });
-      // Fermer le clavier
       FocusScope.of(context).unfocus();
     }
   }
@@ -146,7 +143,6 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          // En-tête avec la date
           Container(
             padding: const EdgeInsets.all(16.0),
             width: double.infinity,
@@ -172,8 +168,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          
-          // Formulaire d'ajout de tâche
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -211,8 +205,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          
-          // Liste des tâches
           Expanded(
             child: _tasks.isEmpty
                 ? Center(
@@ -240,10 +232,7 @@ class _HomePageState extends State<HomePage> {
                 : SingleChildScrollView(
                     child: Column(
                       children: [
-                        // Tâches en attente
                         ...pendingTasks.map((task) => _buildTaskItem(task)),
-                        
-                        // Tâches complétées (si activé)
                         if (completedTasks.isNotEmpty) ...[
                           const SizedBox(height: 16.0),
                           ListTile(
@@ -316,16 +305,13 @@ class _HomePageState extends State<HomePage> {
           ),
           subtitle: Text(
             task.isCompleted
-                ? 'Terminée le ${_dateFormat.format(task.completedAt!)}}'
+                ? 'Terminée le ${_dateFormat.format(task.completedAt!)}'
                 : 'Créée le ${_dateFormat.format(task.createdAt)}',
             style: Theme.of(context).textTheme.bodySmall,
           ),
           trailing: IconButton(
             icon: const Icon(Icons.edit_note),
-            onPressed: () {
-              // TODO: Implémenter l'édition de tâche
-              _showEditTaskDialog(context, task);
-            },
+            onPressed: () => _showEditTaskDialog(context, task),
           ),
         ),
       ),
@@ -333,8 +319,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showEditTaskDialog(BuildContext context, Task task) {
-    final TextEditingController editController = 
-        TextEditingController(text: task.title);
+    final TextEditingController editController = TextEditingController(text: task.title);
     
     showDialog(
       context: context,
